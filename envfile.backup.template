@@ -1,0 +1,41 @@
+
+
+# Backup (manual)
+#       Cron like schedule for performing automatic backups. The format for the schedule is:
+#
+#    * * * * *
+#    - - - - -
+#    | | | | |
+#    | | | | +----- day of week (0 - 6) (Sunday=0)
+#    | | | +------- month (1 - 12)
+#    | | +--------- day of month (1 - 31)
+#    | +----------- hour (0 - 23)
+#    +------------- min (0 - 59)
+
+export cassandra-backup-protocol=sftp
+export cassandra-backup-host=backup.10.127.101.19.nip.io
+export cassandra-backup-port=22
+export cassandra-backup-path=/data/backups/apic/manager
+export cassandra-backup-schedule="0 23 31 2 0"
+export cassandra-backup-auth-user=sftpuser
+export cassandra-backup-auth-pass="********"
+
+# Backup Portal (manual)
+#       Cron like schedule for performing automatic backups. The format for the schedule is:
+#
+#    * * * * *
+#    - - - - -
+#    | | | | |
+#    | | | | +----- day of week (0 - 6) (Sunday=0)
+#    | | | +------- month (1 - 12)
+#    | | +--------- day of month (1 - 31)
+#    | +----------- hour (0 - 23)
+#    +------------- min (0 - 59)
+
+export site-backup-protocol=sftp
+export site-backup-host=backup.10.127.101.19.nip.io
+export site-backup-port=22
+export site-backup-path=/data/backups/apic/portal
+export site-backup-schedule="0 23 31 2 0"
+export site-backup-auth-user=sftpuser
+export site-backup-auth-pass="********"
