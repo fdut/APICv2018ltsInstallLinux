@@ -27,9 +27,10 @@ EOF
 sudo apt-get update
 
 # Install Docker, kubelet, kubeadm, and kubectl
-#sudo apt-get install -y docker-ce=18.06.0~ce~3-0~ubuntu kubelet=1.17.8-00 kubeadm=1.17.8-00 kubectl=1.17.8-00
+sudo apt-get install -y docker-ce=18.06.0~ce~3-0~ubuntu kubelet=1.19.14-00 kubeadm=1.19.14-00 kubectl=1.19.14-00
 
-sudo apt-get install -y docker-ce=18.06.0~ce~3-0~ubuntu kubelet=1.18.5-00 kubeadm=1.18.5-00 kubectl=1.18.5-00
+#sudo apt-get install -y docker-ce=18.06.0~ce~3-0~ubuntu kubelet=1.18.5-00 kubeadm=1.18.5-00 kubectl=1.18.5-00
+
 
 # Hold them at the current version
 sudo apt-mark hold docker-ce kubelet kubeadm kubectl

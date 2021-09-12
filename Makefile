@@ -40,8 +40,10 @@ initk8s:
 	kubectl get nodes
 
 installHelm:
-	tar -xzvf ./tools/helm-v2.16.3-linux-amd64.tar.gz -C ./tools/
-	sudo cp ./tools/linux-amd64/helm /usr/local/bin/helm
+    # install helm3 
+	wget -O helm-v3.5.1-linux-amd64.tar.gz https://get.helm.sh/helm-v3.5.1-linux-amd64.tar.gz
+	tar -xzvf helm-v3.5.1-linux-amd64.tar.gz
+	cp linux-amd64/helm /usr/local/bin/helm
 	sudo chmod +x /usr/local/bin/helm
 	kubectl create clusterrolebinding add-on-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:default
 	helm init

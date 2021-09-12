@@ -24,6 +24,12 @@ else
     echo "PATH=$PATH:$FILE" >> $HOME/.profile
 fi
 
+# install helm3 
+wget -O helm-v3.5.1-linux-amd64.tar.gz https://get.helm.sh/helm-v3.5.1-linux-amd64.tar.gz
+tar -xzvf helm-v3.5.1-linux-amd64.tar.gz
+cp linux-amd64/helm $HOME/bin/helm3
+chmod +x $HOME/bin/helm3
+
 # Install jq
 wget -O jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
 chmod +x ./jq
