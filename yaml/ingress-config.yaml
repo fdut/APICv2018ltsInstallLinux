@@ -1,5 +1,5 @@
 controller:
-  watchIngressWithoutClass: false
+  watchIngressWithoutClass: true
   admissionWebhooks:
     enabled: false
   config:
