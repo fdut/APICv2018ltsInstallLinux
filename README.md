@@ -74,47 +74,55 @@ SFTP download recommended
 
 ## Prepare and Install Kubernetes
 
-- Launch `scripts/install-docker-kube.sh` to install docker and kubernetes (1.18 or 1.19) requirement for next step.
+- Launch `bin/install-docker-kube.sh` to install docker and kubernetes (1.18 or 1.19) requirement for next step.
 
-- Launch `scripts/init-k8s.sh` to configure kubernetes and add calico.
+- Launch `bin/init-k8s.sh` to configure kubernetes and add calico.
 
-* `make master` : checkprereq installk8s initk8s installHelm getk8sstatus
+At the end of this to command you have the following pod up.
 
-## Prepare for API Connect
+```
+NAMESPACE         NAME                                       READY   STATUS    RESTARTS   AGE
+calico-system     calico-kube-controllers-7cb4d78f64-7mlx8   1/1     Running   0          95s
+calico-system     calico-node-8jlct                          1/1     Running   0          95s
+calico-system     calico-typha-5d8444648d-rlkdq              1/1     Running   0          95s
+kube-system       coredns-66bff467f8-nchwg                   1/1     Running   0          10m
+kube-system       coredns-66bff467f8-xdgst                   1/1     Running   0          10m
+kube-system       etcd-apick8s                               1/1     Running   0          10m
+kube-system       kube-apiserver-apick8s                     1/1     Running   0          10m
+kube-system       kube-controller-manager-apick8s            1/1     Running   0          10m
+kube-system       kube-proxy-tmt68                           1/1     Running   0          10m
+kube-system       kube-scheduler-apick8s                     1/1     Running   0          10m
+tigera-operator   tigera-operator-58b5dc8d64-w8hvn           1/1     Running   0          108s
+```
 
-- `make prepapic` : ingress storage registry smtp getk8sstatus
+- Launch `scripts/install-ingress.sh` to install ingress
+
+```
+NAME                                          TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE   SELECTOR
+ingress-controller-ingress-nginx-controller   LoadBalancer   10.104.191.73   <pending>     80:30245/TCP,443:31602/TCP   65s   app.kubernetes.io/component=controller,app.kubernetes.io/instance=ingress-controller,app.kubernetes.io/name=ingress-nginx
+```
+
+- Add storageclass and hostpath-provisioner
+
+```
+kubectl create -f yaml/storage-rbac.yml
+kubectl create -f yaml/hostpath-provisioner.yml
+```
+
+- Launch `scripts/install-registry` to install docker-registry
+
+```
+NAMESPACE          NAME                                                READY   STATUS    RESTARTS   AGE
+default            registry-docker-registry-5dffc7b48-zk5gm            1/1     Running   0          60s
+```
+
+## Install local SMTP Server for API Connect
+
+- `make smtp`
 
 ## Deploy or Upgrade APIC
 
 - `make deploy` : checkReady installapicup upload buildYaml deployAPIC getk8sstatus
-
-## Configure APIC (Add Gateway, Analytics, Portal services and deploy a API sample)
-
-- `make configureAPIC` : addTopology loadAssets createApp
-
-## Full install and configuration
-
-- `make full` : master prepapic deploy configureAPIC
-
-# A Another option
-
-## Install on a multiple Node
-
-- Review value in **envfile**
-- Review value in **Makefile**
-
-If you don't have docker & Kubernetes installed
-
-Install kube and docker stack with the following command.
-
-- Execute `make master` in terminal of master node
-
-- Execute `make node` in terminal of each node
-
-- Review the file **rookCephInstall/rookCluster.yaml** and configure **rook-ceph** with script `run.sh` in rookCephInstall folder
-
-If you want to explore the install step by step, follow these steps:
-https://www.ibm.com/support/knowledgecenter/en/SSMNED_2018/com.ibm.apic.install.doc/tapic_install_Kubernetes_overview.html
 
 ## Know limitations
 
@@ -122,22 +130,6 @@ https://www.ibm.com/support/knowledgecenter/en/SSMNED_2018/com.ibm.apic.install.
 - The environment is sometimes not coming up after the VM got suspended. If that is the case, restart the VM
 
 ## Tips
-
-### Bind Kubernetes inter-communication to an interface
-
-To bind Kubernetes inter-communication to an interface add --node-ip=<ip_address_on_interface> in /var/lib/kubelet/kubeadm-flags.env
-
-Example:
-KUBELET_KUBEADM_ARGS=--cgroup-driver=cgroupfs --network-plugin=cni --node-ip=10.127.101.30
-
-And restart kubelet
-sudo systemctl restart kubelet
-
-### Add user to manage Kubernetes cluster:
-
-sudo useradd -s /bin/bash -m kadmin
-sudo passwd kadmin
-sudo usermod -aG sudo kadmin
 
 ### Access API Gateway webui from an external IP of the kubernetes cluster
 
