@@ -1,4 +1,4 @@
-helm repo add docker-registry https://charts.helm.sh/stable/
+helm repo add stable https://charts.helm.sh/stable/
 helm repo update
 helm install registry stable/docker-registry  -f yaml/docker-registry-values.yaml
 echo "Waiting for docker registry to start"
